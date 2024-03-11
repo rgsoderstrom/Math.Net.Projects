@@ -1,0 +1,33 @@
+﻿<Window x:Class="RealFFT.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RealFFT"
+        xmlns:Plot2D_Embedded="clr-namespace:Plot2D_Embedded;assembly=Plot2D_Embedded"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel>
+        <Border BorderBrush="Green" BorderThickness="2" Margin="3,3,0,3">
+            <StackPanel Orientation="Vertical" Margin="3">
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Name="PlotSpectrumCB" VerticalAlignment="Center" IsChecked="True" Click="PlotSelectCB_Click"/>
+                    <Label>Plot Spectrum</Label>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Name ="PlotSignalCB" VerticalAlignment="Center" IsChecked="False" Click="PlotSelectCB_Click"/>
+                    <Label>Plot Signal</Label>
+                </StackPanel>
+
+                <!--<StackPanel Orientation="Horizontal">
+                    <CheckBox Name ="PlotFilterCB" VerticalAlignment="Center" IsChecked="False" Click="PlotSelectCB_Click"/>
+                    <Label>Plot Filter</Label>
+                </StackPanel>-->
+            </StackPanel>
+        </Border>
+
+        <Plot2D_Embedded:Bare2DPlot Name="figure"/>
+    </DockPanel>
+</Window>
