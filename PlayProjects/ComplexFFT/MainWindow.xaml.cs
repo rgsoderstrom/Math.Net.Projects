@@ -21,7 +21,7 @@ namespace ComplexFFT
 
         List<double> frequencies = new List<double> () { 4 * resolution, 16 * resolution };//, 200, 400 };
    //   List<double> frequencies = new List<double> () {23.456, 65.432 };
-        List<double> amplitudes = new List<double> ()  { 2, 1, 0.5 }; // one for each frequency
+        List<double> amplitudes = new List<double> ()  { 4, 1, 0.5 }; // one for each frequency
 
         public MainWindow ()
         {
