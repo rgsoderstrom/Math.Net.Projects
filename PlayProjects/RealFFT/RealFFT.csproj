@@ -38,11 +38,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MathNet.Numerics">
-      <HintPath>..\..\..\Math.Net\Math.Net\packages\MathNet.Numerics.5.0.0\lib\net461\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.6.0.0-beta1\lib\net48\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Plot2D_Embedded">
-      <HintPath>..\..\..\Plotting\Plot2D_Embedded\bin\Debug\Plot2D_Embedded.dll</HintPath>
+      <HintPath>..\..\..\..\Plotting\Plot2D_Embedded\bin\Debug\Plot2D_Embedded.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -95,6 +95,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
