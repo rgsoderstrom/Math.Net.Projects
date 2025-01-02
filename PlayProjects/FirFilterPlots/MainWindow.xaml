@@ -6,34 +6,71 @@
         xmlns:local="clr-namespace:FirFilterPlots"
         xmlns:Plot2D_Embedded="clr-namespace:Plot2D_Embedded;assembly=Plot2D_Embedded"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Left="20" Top="20" Height="950" Width="1200" Loaded="Window_Loaded">
     <DockPanel>
-        <Border BorderBrush="Green" BorderThickness="2" Margin="3,3,0,3">
-            <StackPanel Orientation="Vertical" Margin="3">
-
+        <StackPanel Orientation="Vertical">
+            <GroupBox Header="Time Domain" BorderBrush="Green" BorderThickness="2" FontSize="16" Margin="3,3,3,3" DockPanel.Dock="Left" VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Name ="PlotInputCB" VerticalAlignment="Center" IsChecked="True" Click="PlotSelectCB_Click"/>
-                    <Label>Plot Input</Label>
-                </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="3">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Name ="PlotInputCB" VerticalAlignment="Center" IsChecked="True" Click="TimePlotSelectCB_Click"/>
+                        <Label>Plot Input</Label>
+                    </StackPanel>
 
+                    <StackPanel Orientation="Horizontal">
+                            <CheckBox Name ="PlotOutputCB" VerticalAlignment="Center" IsChecked="True" Click="TimePlotSelectCB_Click"/>
+                        <Label>Plot Output</Label>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                            <CheckBox Name ="PlotFilterCB" VerticalAlignment="Center" IsChecked="False" Click="TimePlotSelectCB_Click"/>
+                        <Label>Plot Filter</Label>
+                    </StackPanel>
+
+                    <GroupBox Header="Mouse Wheel" BorderThickness="1" FontSize="16" BorderBrush="Black" Margin="8,2,8,0">
+                        <StackPanel Orientation="Vertical">
+                            <!-- Default set in code -->
+                            <RadioButton Margin="8,4,8,0" Name="TimeZoomBoth_Button" Tag="Zoom_Both" Checked="TimeZoomOptionButton_Checked">Zoom Both</RadioButton>
+                            <RadioButton Margin="8,2,8,0" Name="TimeZoomX_Button"    Tag="Zoom_X"    Checked="TimeZoomOptionButton_Checked">Zoom X Only</RadioButton>
+                            <RadioButton Margin="8,2,8,0" Name="TimeZoomY_Button"    Tag="Zoom_Y"    Checked="TimeZoomOptionButton_Checked">Zoom Y Only</RadioButton>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+                    <Plot2D_Embedded:Bare2DPlot Name="timeDomainFigure" MinHeight="400" Width="1000" Margin="0,0,0,10"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Frequency Domain" BorderBrush="Green" BorderThickness="2" FontSize="16" Margin="3,3,3,3" DockPanel.Dock="Left" VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Name ="PlotOutputCB" VerticalAlignment="Center" IsChecked="True" Click="PlotSelectCB_Click"/>
-                    <Label>Plot Output</Label>
+                    <StackPanel Orientation="Vertical" Margin="3">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Name ="FreqPlotInputCB" VerticalAlignment="Center" IsChecked="True" Click="FreqPlotSelectCB_Click"/>
+                            <Label>Plot Input</Label>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Name ="FreqPlotOutputCB" VerticalAlignment="Center" IsChecked="True" Click="FreqPlotSelectCB_Click"/>
+                            <Label>Plot Output</Label>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Name ="FreqPlotFilterCB" VerticalAlignment="Center" IsChecked="False" Click="FreqPlotSelectCB_Click"/>
+                            <Label>Plot Filter</Label>
+                        </StackPanel>
+
+                        <GroupBox Header="Mouse Wheel" BorderThickness="1" FontSize="16" BorderBrush="Black" Margin="8,2,8,0">
+                            <StackPanel Orientation="Vertical">
+                                <!-- Default set in code -->
+                                <RadioButton Margin="8,4,8,0" Name="FreqZoomBoth_Button" Tag="Zoom_Both" Checked="FreqZoomOptionButton_Checked">Zoom Both</RadioButton>
+                                <RadioButton Margin="8,2,8,0" Name="FreqZoomX_Button"    Tag="Zoom_X"    Checked="FreqZoomOptionButton_Checked">Zoom X Only</RadioButton>
+                                <RadioButton Margin="8,2,8,0" Name="FreqZoomY_Button"    Tag="Zoom_Y"    Checked="FreqZoomOptionButton_Checked">Zoom Y Only</RadioButton>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+
+                    <Plot2D_Embedded:Bare2DPlot Name="freqDomainFigure" MinHeight="400" Width="1000" Margin="0,0,0,10"/>
                 </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Name ="PlotFilterCB" VerticalAlignment="Center" IsChecked="False" Click="PlotSelectCB_Click"/>
-                    <Label>Plot Filter</Label>
-                </StackPanel>
-
-                <!--
-                <Button Name="PlotInputButton"  Width="65" Margin="3,3,3,0" Click="PlotInputButton_Click"  IsEnabled="True">Plot input</Button>
-                <Button Name="PlotFilterButton" Width="65" Margin="3,3,3,0" Click="PlotFilterButton_Click" IsEnabled="True">Plot filter</Button>
-                <Button Name="PlotOutputButton" Width="65" Margin="3,3,3,0" Click="PlotOutputButton_Click" IsEnabled="True">Plot output</Button> -->
-                
-            </StackPanel>
-        </Border>
-
-        <Plot2D_Embedded:Bare2DPlot Name="figure"/>
+            </GroupBox>
+        </StackPanel>
     </DockPanel>
 </Window>
