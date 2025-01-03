@@ -14,13 +14,15 @@ using Plot2D_Embedded;
 
 namespace FirFilterPlots
 {
+    #pragma warning disable IDE0051 // Remove unused private members
+
     public partial class MainWindow : System.Windows.Window
     {
         //*******************************************************************
 
         // specify input time domain signal
-        private readonly double       inputSampleRate = 4096; 
-        private readonly List<double> frequencies = new List<double> () {500};
+        private readonly double       inputSampleRate = 100000; 
+        private readonly List<double> frequencies = new List<double> () {144};
         private readonly double       plotDuration = 0.05;
 
         //*******************************************************************
@@ -31,9 +33,9 @@ namespace FirFilterPlots
         //*******************************************************************
 
         // specify filter & FFT
-        private readonly double cutoffFrequency = 1024; // Hz
-        private readonly int decimation = 2;
-        private readonly int fftSize = 1024;
+        private readonly double cutoffFrequency = 500000 / 16; // Hz
+        private readonly int decimation = 16;
+        private readonly int fftSize = 256;
 
         //*******************************************************************
 
@@ -89,8 +91,8 @@ namespace FirFilterPlots
         {
             try
             {
-                filterCoefs   = CalculateFilterCoefficients (inputSampleRate, cutoffFrequency);
-              //filterCoefs   = GetFilterCoefficients ();
+              //filterCoefs   = CalculateFilterCoefficients (inputSampleRate, cutoffFrequency);
+                filterCoefs   = GetFilterCoefficients ();
 
                 filter        = GenerateFilter (filterCoefs);
                 filterSamples = PadFilterCoeffs (inputSampleRate, filterCoefs, fftSize);
@@ -132,7 +134,7 @@ namespace FirFilterPlots
             {
                 double s = 0;
                 foreach (double f in frequencies)
-                    s += Math.Sin (2 * Math.PI * f * t) + (rand.NextDouble () - 0.5) * 0.0001;
+                    s += Math.Cos (2 * Math.PI * f * t) + (rand.NextDouble () - 0.5) * 0.0001;
                 
                 inputSignal.Add (new Point (t, s));
             }
@@ -164,8 +166,6 @@ namespace FirFilterPlots
             return filterSamples;
         }
 
-        #pragma warning disable IDE0051 // Remove unused private members
-
         double [] CalculateFilterCoefficients (double sampleRate, double cutoffFreq)
         {
             return FirCoefficients.LowPass (sampleRate, cutoffFrequency); 
@@ -173,47 +173,43 @@ namespace FirFilterPlots
 
         double [] GetFilterCoefficients () // http://t-filter.engineerjs.com/
         {
-            return new double [] 
-                                 //{-0.02010411882885732,
-                                  // -0.05842798004352509,
-                                  // -0.061178403647821976,
-                                  // -0.010939393385338943,
-                                  //  0.05125096443534972,
-                                  //  0.033220867678947885,
-                                  // -0.05655276971833928,
-                                  // -0.08565500737264514,
-                                  //  0.0633795996605449,
-                                  //  0.31085440365663597,
-                                  //  0.4344309124179415,
-                                  //  0.31085440365663597,
-                                  //  0.0633795996605449,
-                                  // -0.0856550073726451,
-                                  // -0.05655276971833928,
-                                  //  0.033220867678947885,
-                                  //  0.05125096443534972,
-                                  // -0.010939393385338943,
-                                  // -0.061178403647821976,
-                                  // -0.05842798004352509,
-                                  // -0.02010411882885732};
-
-                                  { 0.020132210722515607,
-                                    0.014337588088026872,
-                                    -0.06042518986827016,
-                                    -0.11688176581198412,
-                                    0.015390548525687591,
-                                    0.30600043556088063,
-                                    0.464289723357815,
-                                    0.30600043556088063,
-                                    0.015390548525687591,
-                                    -0.11688176581198412,
-                                    -0.06042518986827016,
-                                    0.014337588088026872,
-                                    0.020132210722515607 };
-
-
+            return new double []
+                                 {
+                                    -0.007193104140960058,
+                                    -0.005690941419964349,
+                                    -0.006732491431624812,
+                                    -0.006734559847354272,
+                                    -0.005157607255598935,
+                                    -0.0015142487868529896,
+                                    0.0045471213869874285,
+                                    0.013181429570356848,
+                                    0.02427973460356201,
+                                    0.037423914508760085,
+                                    0.05195106974133303,
+                                    0.0669359545576894,
+                                    0.08131554113691528,
+                                    0.09397473286411374,
+                                    0.10387823859496062,
+                                    0.11018591835898431,
+                                    0.11234988206563754,
+                                    0.11018591835898431,
+                                    0.10387823859496062,
+                                    0.09397473286411374,
+                                    0.08131554113691528,
+                                    0.0669359545576894,
+                                    0.05195106974133303,
+                                    0.037423914508760085,
+                                    0.02427973460356201,
+                                    0.013181429570356848,
+                                    0.0045471213869874285,
+                                    -0.0015142487868529896,
+                                    -0.005157607255598935,
+                                    -0.006734559847354272,
+                                    -0.006732491431624812,
+                                    -0.005690941419964349,
+                                    -0.007193104140960058
+                                   };
         }
-
-        #pragma warning restore IDE0051 // Remove unused private members
 
         //***************************************************************************************
         //
@@ -259,8 +255,8 @@ namespace FirFilterPlots
 
         void CalculateSpectra ()
         {
-            Console.WriteLine ("input FFT Resolution = " + inputSampleRate / fftSize);
-            Console.WriteLine ("filtered FFT Resolution = " + inputSampleRate / decimation / fftSize);
+            Console.WriteLine ("input FFT Resolution = " + inputSampleRate / fftSize + " Hz / bin");
+            Console.WriteLine ("filtered FFT Resolution = " + inputSampleRate / decimation / fftSize + " Hz / bin");
 
             RunFFT (inputSignal,    inputSpectrum);
             RunFFT (filteredSignal, filteredSpectrum);
@@ -379,10 +375,26 @@ namespace FirFilterPlots
         //
         // Plot signals
         //
-        private void PlotInputSignal ()
-        {
-            LineView lv1 = new LineView (inputSignal);
-            lv1.Color = Brushes.Red;
+
+        private void PlotTimeSignal (List<Point> signal, Brush color)
+        { 
+            //List<double> amplitudeOnly = new List<double> ();
+
+            //foreach (Point pt in signal)
+            //{ 
+            //    amplitudeOnly.Add (pt.Y);
+
+            //    if (amplitudeOnly.Count > 200)
+            //        break;
+            //}
+
+
+
+
+          LineView lv1 = new LineView (signal);
+          //  LineView lv1 = new LineView (amplitudeOnly);
+
+            lv1.Color = color;
             timeDomainFigure.Plot (lv1);
 
             // limit display for better view of first part
@@ -392,17 +404,14 @@ namespace FirFilterPlots
             timeDomainFigure.RectangularGridOn = true;
         }
 
+        private void PlotInputSignal ()
+        {
+            PlotTimeSignal (inputSignal, Brushes.Red);
+        }
+
         private void PlotOutputSignal ()
         {
-            LineView lv2 = new LineView (filteredSignal);
-            lv2.Color = Brushes.Green;
-            timeDomainFigure.Plot (lv2);
-
-            // limit display for better view of first part
-            timeDomainFigure.GetAxes (out _, out _, out double ymin, out double ymax);
-            timeDomainFigure.SetAxes (0, plotDuration, ymin, ymax);
-
-            timeDomainFigure.RectangularGridOn = true;
+            PlotTimeSignal (filteredSignal, Brushes.Green);
         }
 
         //************************************************************************
@@ -482,4 +491,6 @@ namespace FirFilterPlots
             FreqZoomX_Button.IsChecked = true;
         }
     }
+
+    #pragma warning restore IDE0051 // Remove unused private members
 }
