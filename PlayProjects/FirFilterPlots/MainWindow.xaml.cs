@@ -22,7 +22,8 @@ namespace FirFilterPlots
 
         // specify input time domain signal
         private readonly double       inputSampleRate = 100000; 
-        private readonly List<double> frequencies = new List<double> () {144};
+        //private readonly List<double> frequencies = new List<double> () {1000, 5000, 10000, 15000, 20000, 25000 };
+        private readonly List<double> frequencies = new List<double> () {100, 19600 };
         private readonly double       plotDuration = 0.05;
 
         //*******************************************************************
@@ -33,9 +34,9 @@ namespace FirFilterPlots
         //*******************************************************************
 
         // specify filter & FFT
-        private readonly double cutoffFrequency = 500000 / 16; // Hz
-        private readonly int decimation = 16;
-        private readonly int fftSize = 256;
+        private readonly double cutoffFrequency = 13000; //3125;// 50000 / 16; // Hz
+        private readonly int decimation = 1; // 16;
+        private readonly int fftSize = 1024;
 
         //*******************************************************************
 
@@ -91,8 +92,22 @@ namespace FirFilterPlots
         {
             try
             {
-              //filterCoefs   = CalculateFilterCoefficients (inputSampleRate, cutoffFrequency);
-                filterCoefs   = GetFilterCoefficients ();
+                filterCoefs   = CalculateFilterCoefficients (inputSampleRate, cutoffFrequency);
+              //filterCoefs   = GetFilterCoefficients ();
+
+                //***********************************************************
+
+                double sum = 0;
+
+                foreach (double d in filterCoefs)
+                    sum += d;
+        
+                Console.WriteLine ("filter coef sum = " + sum.ToString ());
+
+                for (int i=0; i<filterCoefs.Length; i++)
+                    filterCoefs [i] /= sum;
+
+                //***********************************************************
 
                 filter        = GenerateFilter (filterCoefs);
                 filterSamples = PadFilterCoeffs (inputSampleRate, filterCoefs, fftSize);
@@ -106,7 +121,7 @@ namespace FirFilterPlots
 
                 Console.WriteLine (filterCoefs.Length + " filter coefficients");
                 Console.WriteLine ("filtered signal count = " + filteredSignal.Count);
-        
+
             }
 
             catch (Exception ex)
